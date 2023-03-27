@@ -113,7 +113,7 @@ Las soluciones analíticas son
     + 0.00545477086295742*exp(-4545.5484636724*t)
 '''
     
-t       = np.linspace(0, 0.005,num=101)
+t       = np.linspace(0, 0.005,num=501)
 ten     = 12 - 0.000247949253158732*np.exp(-219995454.451536*t)\
     -12.0002479492532*np.exp(-4545.5484636724*t)
 corr    = 8.67361737988404e-19\
@@ -144,3 +144,101 @@ plt.show()
 #%%
 
 # Ejercicio 3
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+'''
+Las soluciones analíticas son
+
+- Tensión:
+    v(t) = 12 - 0.00024794925315873*exp(-219995454.451536*t)
+    -12.0002479492532*exp(-4545.5484636724⋅t)
+
+- Corriente:
+    i(t) = 8.67361737988404*exp(-19) 
+    - 0.00545477086295743*exp(-219995454.451536*t)
+    + 0.00545477086295742*exp(-4545.5484636724*t)
+'''
+
+n       = 100
+t       = np.linspace(0, 0.001,num=n+1)
+tiempo  = np.linspace(0, 0.006,num=6*n+1)
+k1      = 1
+k2      = 0
+ten     = [0]
+corr    = [0]
+for i in range(6):
+    for j in range(n):
+        if i%2 == 0:
+            ten.append(12 - 0.000247949253158732*np.exp(-219995454.451536*t[j])\
+                       - 12.0002479492532*np.exp(-4545.5484636724*t[j]))
+            corr.append(8.67361737988404e-19\
+                        - 0.00545477086295743*np.exp(-219995454.451536*t[j])\
+                        + 0.00545477086295742*np.exp(-4545.5484636724*t[j]))
+        else:
+            ten.append(- 12 - 0.000247949253158732*np.exp(-219995454.451536*t[j])\
+                       + 12.0002479492532*np.exp(-4545.5484636724*t[j]))
+            corr.append(- 8.67361737988404e-19\
+                        + 0.00545477086295743*np.exp(-219995454.451536*t[j])\
+                        - 0.00545477086295742*np.exp(-4545.5484636724*t[j]))
+'''    
+for i in range(1,6*n+1):
+    if k1 > 0:
+        if k2 == 0:
+            ten[i]  = ten[i-1] + 12 - 0.000247949253158732*np.exp(-219995454.451536*t[i])\
+                -12.0002479492532*np.exp(-4545.5484636724*t[i])
+            corr[i] = corr[i-1] + 8.67361737988404e-19\
+                - 0.00545477086295743*np.exp(-219995454.451536*t[i])\
+                + 0.00545477086295742*np.exp(-4545.5484636724*t[i])
+        else:
+            ten[i]  = 12 - 0.000247949253158732*np.exp(-219995454.451536*t[i])\
+                -12.0002479492532*np.exp(-4545.5484636724*t[i])
+            corr[i] = 8.67361737988404e-19\
+                - 0.00545477086295743*np.exp(-219995454.451536*t[i])\
+                + 0.00545477086295742*np.exp(-4545.5484636724*t[i])
+        k2 += 1
+        if k2 == 100:
+            k1 = -1
+            k2 = 0
+            continue
+    if k1 < 0:
+        if k2 == 0:
+            ten[i]  = ten[i-1] - 0.000247949253158732*np.exp(-219995454.451536*t[i])\
+                -12.0002479492532*np.exp(-4545.5484636724*t[i])
+            corr[i] = corr[i-1] -8.67361737988404e-19\
+                + 0.00545477086295743*np.exp(-219995454.451536*t[i])\
+                - 0.00545477086295742*np.exp(-4545.5484636724*t[i])
+        else:
+            ten[i]  = - 0.000247949253158732*np.exp(-219995454.451536*t[i])\
+                -12.0002479492532*np.exp(-4545.5484636724*t[i])
+            corr[i] = -8.67361737988404e-19\
+                + 0.00545477086295743*np.exp(-219995454.451536*t[i])\
+                - 0.00545477086295742*np.exp(-4545.5484636724*t[i])
+        k2 += 1
+        if k2 == 100:
+            k1 = 1
+            k2 = 0
+            continue
+'''
+
+fig, ax = plt.subplots(dpi=400)
+ax.plot(tiempo,ten)
+#ax.set_xlim(0.0,20.0)
+#ax.set_ylim(0.0,15.0)
+ax.set_title('Tensión (voltaje) del capacitor')
+ax.set_xlabel('t [s]')
+ax.set_ylabel('Vc [V]')
+plt.grid(visible = True, which = 'both', axis = 'both')
+plt.savefig('Ejercicio-3_tension.png', dpi=400, format='png', orientation='landscape')
+
+fig, bx = plt.subplots(dpi=400)
+bx.plot(tiempo,corr)
+#bx.set_xlim(0.0,20.0)
+#bx.set_ylim(-2.0,7.0)
+bx.set_title('Corriente')
+bx.set_xlabel('t [s]')
+bx.set_ylabel('I [A]')
+plt.grid(visible = True, which = 'both', axis = 'both')
+plt.savefig('Ejercicio-3_corriente.png', dpi=400, format='png', orientation='landscape')
+plt.show()
