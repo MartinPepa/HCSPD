@@ -4,7 +4,7 @@ Created on Sun Mar 19 19:18:19 2023
 @author: Martín Paredes
 """
 
-#%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,6 +22,7 @@ def mod_rlc(delta_t, x_ant, accion):
     return x
 
 # Ejercicio 1a
+
 t       = np.linspace(0, 20, num=300)
 tf      = 3
 ten     = 12 - 8 * np.sqrt(3) * np.exp(-t/2) * np.sin( np.sqrt(3) * t/2 + np.pi/3 )
@@ -44,6 +45,8 @@ for i in range(int(n)):
   acc.append(u)
 
 t2 = np.linspace(0, tf, num=int(n))
+
+# Gráficas
 
 fig, ax = plt.subplots(dpi=400)
 ax.plot(t,ten, label='Analítica')
@@ -70,32 +73,9 @@ plt.grid(visible = True, which = 'both', axis = 'both')
 plt.savefig('Ejercicio-1a-1b_corriente.png', dpi=400, format='png', orientation='landscape')
 plt.show()
 
-# writefile modrlc.m
-
-'''
-function [X]=modrlc(t_etapa, xant, accion)
-h       = 1e-9
-t_simul = 1e-3
-R       = 2.2e3
-L       = 10e-6
-C       = 100e-9
-
-A       = [-R/L, -1/L;1/C,0]
-B       = [1/L;0] 
-C       = [R 0]
-x       = xant
-for ii=1:t_etapa/h 
-xp=A*x+B*u; 
-x=x+xp*h; 
-end 
-X=[x];%x1 corriente, x2 tensión
-''' 
-
-
-#%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # Ejercicio 2
-# ATENCIÓN: PENDIENTE DE CHEQUEAR
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -122,8 +102,6 @@ corr    = 8.67361737988404e-19\
 
 fig, ax = plt.subplots(dpi=400)
 ax.plot(t,ten)
-#ax.set_xlim(0.0,20.0)
-#ax.set_ylim(0.0,15.0)
 ax.set_title('Tensión (voltaje) del capacitor')
 ax.set_xlabel('t [s]')
 ax.set_ylabel('Vc [V]')
@@ -132,8 +110,6 @@ plt.savefig('Ejercicio-2_tension.png', dpi=400, format='png', orientation='lands
 
 fig, bx = plt.subplots(dpi=400)
 bx.plot(t,corr)
-#bx.set_xlim(0.0,20.0)
-#bx.set_ylim(-2.0,7.0)
 bx.set_title('Corriente')
 bx.set_xlabel('t [s]')
 bx.set_ylabel('I [A]')
@@ -141,7 +117,7 @@ plt.grid(visible = True, which = 'both', axis = 'both')
 plt.savefig('Ejercicio-2_corriente.png', dpi=400, format='png', orientation='landscape')
 plt.show()
 
-#%%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # Ejercicio 3
 
@@ -182,50 +158,10 @@ for i in range(6):
             corr.append(- 8.67361737988404e-19\
                         + 0.00545477086295743*np.exp(-219995454.451536*t[j])\
                         - 0.00545477086295742*np.exp(-4545.5484636724*t[j]))
-'''    
-for i in range(1,6*n+1):
-    if k1 > 0:
-        if k2 == 0:
-            ten[i]  = ten[i-1] + 12 - 0.000247949253158732*np.exp(-219995454.451536*t[i])\
-                -12.0002479492532*np.exp(-4545.5484636724*t[i])
-            corr[i] = corr[i-1] + 8.67361737988404e-19\
-                - 0.00545477086295743*np.exp(-219995454.451536*t[i])\
-                + 0.00545477086295742*np.exp(-4545.5484636724*t[i])
-        else:
-            ten[i]  = 12 - 0.000247949253158732*np.exp(-219995454.451536*t[i])\
-                -12.0002479492532*np.exp(-4545.5484636724*t[i])
-            corr[i] = 8.67361737988404e-19\
-                - 0.00545477086295743*np.exp(-219995454.451536*t[i])\
-                + 0.00545477086295742*np.exp(-4545.5484636724*t[i])
-        k2 += 1
-        if k2 == 100:
-            k1 = -1
-            k2 = 0
-            continue
-    if k1 < 0:
-        if k2 == 0:
-            ten[i]  = ten[i-1] - 0.000247949253158732*np.exp(-219995454.451536*t[i])\
-                -12.0002479492532*np.exp(-4545.5484636724*t[i])
-            corr[i] = corr[i-1] -8.67361737988404e-19\
-                + 0.00545477086295743*np.exp(-219995454.451536*t[i])\
-                - 0.00545477086295742*np.exp(-4545.5484636724*t[i])
-        else:
-            ten[i]  = - 0.000247949253158732*np.exp(-219995454.451536*t[i])\
-                -12.0002479492532*np.exp(-4545.5484636724*t[i])
-            corr[i] = -8.67361737988404e-19\
-                + 0.00545477086295743*np.exp(-219995454.451536*t[i])\
-                - 0.00545477086295742*np.exp(-4545.5484636724*t[i])
-        k2 += 1
-        if k2 == 100:
-            k1 = 1
-            k2 = 0
-            continue
-'''
 
 fig, ax = plt.subplots(dpi=400)
 ax.plot(tiempo,ten)
-#ax.set_xlim(0.0,20.0)
-#ax.set_ylim(0.0,15.0)
+ax.set_ylim(-14.0,14.0)
 ax.set_title('Tensión (voltaje) del capacitor')
 ax.set_xlabel('t [s]')
 ax.set_ylabel('Vc [V]')
@@ -234,8 +170,7 @@ plt.savefig('Ejercicio-3_tension.png', dpi=400, format='png', orientation='lands
 
 fig, bx = plt.subplots(dpi=400)
 bx.plot(tiempo,corr)
-#bx.set_xlim(0.0,20.0)
-#bx.set_ylim(-2.0,7.0)
+bx.set_ylim(-0.006,0.006)
 bx.set_title('Corriente')
 bx.set_xlabel('t [s]')
 bx.set_ylabel('I [A]')
