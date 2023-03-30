@@ -5,17 +5,17 @@ function [X]=modavion(t_etapa, xant, accion)
 
 a     = 0.01;
 b     = 2;
-c     = 50;
+c     = 100;
 omega = 0.2;
 At    = 1e-3; 
 u     = accion; 
 
 % xant=[alfa,fi,fi_p,h]
-alfa  =xant(1);
-fi    =xant(2);
-fi_p  =xant(3);
-h     =xant(4);
-x     =xant;
+alfa  = xant(1);
+fi    = xant(2);
+fi_p  = xant(3);
+h     = xant(4);
+x     = xant;
 
 for ii=1:t_etapa/At
   % xp = A*x+B*u; 
