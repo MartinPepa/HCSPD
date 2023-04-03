@@ -6,26 +6,12 @@ tF      = 20;
 color_  = 'r';
 color   = 'b';
 Ts      = t_etapa;
-%t_u     = 0:0.1:2*pi;
-%u       = sin(t_u);
 ii      = 0;
 
 for t=0:t_etapa:tF
   ii      = ii+1;
   x2(ii)  = X(2);
   x4(ii)  = X(4);
-%  if t < tF/4
-%    X     = modavion(t_etapa, X, sin(t/pi));
-%    acc(ii) = sin(t/pi);
-%    c1    = acc(end);
-%  elseif (t >= tF/4) && (t < 3/4*tF)
-%    X     = modavion(t_etapa, X, c1 - (0.05*t)**2);
-%    acc(ii) = c1 - (0.05*t)**2;
-%    c2    = acc(end);
-%  else
-%    X     = modavion(t_etapa, X, c2 + 0.02*t + sin(t/pi) );
-%    acc(ii) = c2 + 0.02*t + sin(t/pi);
-%  endif
   X       = modavion(t_etapa, X, 0.5*sin(pi*t));
   acc(ii) = 0.5*sin(pi*t);
 end
@@ -59,5 +45,4 @@ grid on;
 hold on;
 
 xlabel('Tiempo [Seg.]',"fontsize",10);
-%saveas(figura1,"simulacion_1",'png');
 print('simulacion_2','-landscape','-r400',"-dpng")
