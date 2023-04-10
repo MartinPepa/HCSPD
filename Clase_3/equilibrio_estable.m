@@ -1,4 +1,4 @@
-%clear all; clc;
+clear all; clc;
 
 setenv PYTHON /home/pepa/anaconda3/bin/python 
 pkg load symbolic
