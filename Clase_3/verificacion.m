@@ -1,19 +1,19 @@
 clc;clear all;close all;
 
 tic
-m       = 0.1;
+m       = 0.01;
 Fricc   = 0.1;
-long    = 0.6;
+long    = 1.2;
 g       = 9.8;
 M       = 0.5;
 h       = 0.0001;
-tiempo  = 1.5/h;
+tiempo  = 10/h;
 p_pp    = 0;
 tita_pp = 0;
 omega(1)= 0;
 
 %Condiciones iniciales
-alfa(1) = -0.01;
+alfa(1) = 3.2;   % Cambiar según el equilibrio
 p(1)    = 0;
 p_p(1)  = 0;
 u(1)    = 0;
@@ -25,12 +25,12 @@ i       = 1;
 Mat_A   = [0 1 0 0;...
           0 -Fricc/M -m*g/M 0;...
           0 0 0 1;...
-          0 Fricc/(long*M) g*(m+M)/(long*M) 0];
+          0 -Fricc/(long*M) -g*(m+M)/(long*M) 0];
 Mat_B   = [0;...
            1/M;...
            0;...
-           -1/(long*M)];
-X0      = [0 0 0 0]';
+           1/(long*M)];
+X0      = [0 0 pi 0]';        % Cambiar según el equilibrio
 x       = [0 0 alfa(1) 0]';
 
 while(i<(tiempo+1))
@@ -86,7 +86,7 @@ title('Angulo \alpha [rad]',"fontsize",12);
 xlabel('Tiempo [s]',"fontsize",10);
 ylabel('\alpha',"rotation",0);
 plot(t, alfa,'--b',"displayname","Exacta");
-plot(t, -pi*ones(size(t)),'r',"displayname","Posición Neutra");
+plot(t, pi*ones(size(t)),'r',"displayname","Posición Neutra");
 plot(t, alfal,':r',"displayname","Lineal");
 legend("location","bestoutside");
 grid on;
@@ -109,7 +109,7 @@ set(hfig1, 'Visible', 'off');
 hold on;
 title('Velocidad carro [m/s]',"fontsize",12);
 xlabel('Tiempo [s]',"fontsize",10);
-ylabel('V [m/s]',"rotation",0);
+ylabel('V',"rotation",0);
 plot(t,p_p,'--b',"displayname","Exacta");
 plot(t,p_pl,':r',"displayname","Lineal");
 legend("location","bestoutside");
@@ -148,20 +148,3 @@ grid on;
 print('figura7','-landscape','-r500',"-dpng");
 
 close all;
-%figure(1);
-
-%figure(2);
-
-%figure(3);
-%print('figura3','-landscape','-r500',"-dpng")
-%figure(4);
-%print('figura4','-landscape','-r500',"-dpng")
-%figure(5);
-%print('figura5','-landscape','-r500',"-dpng")
-%figure(6);
-%print('figura6','-landscape','-r500',"-dpng")
-%figure(7);
-%print('figura7','-landscape','-r500',"-dpng")
-%print(hfig1,'VE_temporal','-dpng');
-%print(hfig2,'VE_fases','-dpng');
-%save('Datos_Controlador.mat','-v7');
